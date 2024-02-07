@@ -17,7 +17,7 @@ import { Link, useGlobalSearchParams, useLocalSearchParams } from "expo-router";
 export default function sdasd() {
   const { id } = useGlobalSearchParams();
   const [data, setData] = useState<any>();
-  const [alldata, setAllData] = useState();
+  const [alldata, setAllData] = useState<any>([]);
   const [episode, setEpisode] = useState<any>([]) || null;
   const [loading, setLoading] = useState(true);
   const [selectedButton, setSelectedButton] = useState(null);
@@ -261,23 +261,14 @@ export default function sdasd() {
                 {renderButton("more", "More like this")}
                 {renderButton("comments", "Comments")}
               </View>
-              {selectedButton === "more" &&
-                alldata &&
-                alldata.map((item: any, i: any) => {
+              {alldata &&
+                alldata.map((el: any, index: number) => {
                   return (
-                    <View key={i}>
-                      <View
-                        style={{
-                          marginLeft: 35,
-                          justifyContent: "center",
-                          padding: 0,
-                          marginTop: 10,
-                          borderRadius: 10,
-                        }}
-                      >
+                    <View key={index} style={styles.itemContainer}>
+                      <View style={styles.item}>
                         <ImageBackground
-                          source={{ uri: item.attributes.posterImage.tiny }}
-                          style={{ width: 110, height: 156, borderRadius: 10 }}
+                          source={{ uri: el.attributes.posterImage.tiny }}
+                          style={{ width: 110, height: 156 }}
                         >
                           <View
                             style={{
@@ -291,7 +282,7 @@ export default function sdasd() {
                             <Text
                               style={{ textAlign: "center", color: "#fff" }}
                             >
-                              {item.attributes.averageRating}
+                              {el.attributes.averageRating}
                             </Text>
                           </View>
                         </ImageBackground>
@@ -299,6 +290,7 @@ export default function sdasd() {
                     </View>
                   );
                 })}
+
               {selectedButton === "comments" && (
                 <View>
                   <Text>Comment</Text>
@@ -348,5 +340,23 @@ const styles = StyleSheet.create({
   backButtonIcon: {
     width: 30,
     height: 30,
+  },
+  list: {
+    justifyContent: "space-between",
+  },
+  item: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 8,
+    borderWidth: 0.5,
+    borderRadius: 8,
+    padding: 16,
+  },
+  itemContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 2,
   },
 });
